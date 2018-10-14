@@ -4,7 +4,7 @@
 
 const SHA256 = require('crypto-js/sha256');
 
-/* ===== Configure to use dbSandbox: implementation of data access layer using LevelDB ================= */
+/* ===== Configure to use LevelDB as the data access layer  ================= */
 
 const GENESIS = 'Project 2: simpleChain - Genesis block';
 
@@ -42,6 +42,9 @@ class Block
    }
 }
 
+/* ===== Blockchain Class =======================================
+|  simpleChain - private blockchain class and implementation    |
+|  ============================================================*/
 
 class Blockchain
 {
@@ -50,6 +53,7 @@ class Blockchain
     this.addGenesisBlock();
   }
 
+	// Adds the genesis block
   async addGenesisBlock()
 	{
 		var genesis = new Block(GENESIS);
@@ -65,6 +69,7 @@ class Blockchain
     }
 	}
 
+	// Appends a block to the blockchain
   async addBlock(block)
   {
     try {
@@ -145,26 +150,6 @@ class Blockchain
     }
   }
 
-  async showBlock(blockHeight)
-  {
-    try {
-      let block = await this.getBlock(blockHeight);
-      console.log(block);
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  }
-
-  async getBlockCount()
-  {
-    try {
-      let blockHeight = await this.getBlockHeight();
-      console.log(`blockHeight is ${blockHeight}`);
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  }
-
   //
   // LevelDB Data Access layer
   //
@@ -241,8 +226,12 @@ function getSHA256(block)
 |     ( new block every 10 minutes )                                           |
 |  ===========================================================================*/
 
-let blockchain = new Blockchain();
-(function theLoop (i) {
+// Create the blockchain
+// let blockchain = new Blockchain();
+
+// Add blocks to populate for testing
+function theLoop (i)
+{
 
   setTimeout(() => {
     i++;
@@ -253,8 +242,10 @@ let blockchain = new Blockchain();
 
     if (i < 10) theLoop(i);
   }, 100);
-})(0);
+}
 
+// Use to create hash value errors in certain blocks
+// TEST with: blockchain.validateChain()
 async function induceErrors()
 {
   let inducedErrorBlocks = [2,4,7];
