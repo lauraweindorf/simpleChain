@@ -1,3 +1,9 @@
+# LevelDB data
+simpleChainData
+
+# npm package JSON
+package-lock.json
+
 # Logs
 logs
 *.log
